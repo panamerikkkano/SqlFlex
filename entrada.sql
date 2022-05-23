@@ -1,0 +1,1 @@
+Select name FroM table2 WHEre a2
