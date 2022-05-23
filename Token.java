@@ -9,5 +9,5 @@ package sqlex;
  * @author brak
  */
 public enum Token {
-    igual, select, from, where, id, ERROR;
+    PC, ID, NUM, EQ, SUM, RES, MULT, DIV, LT, GT, LE, GE, ERROR;
 }

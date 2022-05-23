@@ -3,25 +3,32 @@ import static sqlex.Token.*;
 %%
 %class Lexer
 %type Token
-letra=[A-Za-z]
-letras=letra+
+letra=[a-zA-Z]
 digito=[0-9]
-digitos=digito+
-ws=[ ,\r,\t,\n]
+digitos={digito}+
+ws=[ ,\n]
 select = (S|s)(E|e)(L|l)(E|e)(C|c)(T|t)
 from = (F|f)(R|r)(O|o)(M|m)
 where = (W|w)(H|h)(E|e)(R|r)(E|e)
-id = letra(letras|digitos)*
+id = {letra}({letra}|{digito})*
 %{
     public String lexeme;
 %}
 %%
 {ws} {/*Ignore*/}
 "//".* {/*Ignore*/}
-"=" {return igual;}
-
-{select} {lexeme=yytext(); return select;}
-{from} {lexeme=yytext(); return from;}
-{where} {lexeme=yytext(); return where;}
-{id} {lexeme=yytext(); return id;}
+{select} {lexeme=yytext(); return PC;}
+{from} {lexeme=yytext(); return PC;}
+{where} {lexeme=yytext(); return PC;}
+{id} {lexeme=yytext(); return ID;}
+{digitos} {lexeme=yytext(); return NUM;}
+"+" {return SUM;}
+"-" {return RES;}
+"*" {return MULT;}
+"/" {return DIV;}
+"=" {return EQ;}
+"<" {return LT;}
+">" {return GT;}
+"<=" {return LE;}
+">=" {return GE;}
 . {return ERROR;}

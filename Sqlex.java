@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 
 /**
  *
@@ -18,15 +20,16 @@ public class Sqlex {
 
     static String path = "/home/brak/NetBeansProjects/sqlex/src/sqlex/Lexer.flex";
 
+    public static void main(String[] args) {
+      
+       //generarLexer(path);
+       probar();
+
+    }
+
     public static void generarLexer(String path) {
         File file = new File(path);
         jflex.Main.generate(file);
-    }
-
-    public static void main(String[] args) {
-        //generarLexer(path);
-        probar();
-        
     }
 
     public static void probar() {
@@ -37,7 +40,7 @@ public class Sqlex {
             String resultado = "";
             while (true) {
                 try {
-                    Token token = lexer.yylex();
+                    Token token = lexer.yylex(); //Logger.getLogger(jflex.class.getName()).log(Level.SEVERE, null, ex);
                     if (token == null) {
                         resultado += "FIN";
                         System.out.println(resultado);
@@ -47,26 +50,23 @@ public class Sqlex {
                         case ERROR:
                             resultado += "Simbolo no definido" + "\n";
                             break;
-                        case select:
-                        case from:
-                        case where:
-                            resultado += "PC : " + token + " " + lexer.lexeme + "\n";
+                        case PC:
+                        case ID:
+                        case NUM:
+                            resultado += token + ": " + lexer.lexeme + "\n";
                             break;
-                        case id:
-                            resultado += "ID : " + token + "\n";
                         default:
                             resultado += "Token: " + token + "\n";
                     }
-                } catch (IOException ex) {
-                    //Logger.getLogger(jflex.class.getName()).log(Level.SEVERE, null, ex);
-                    System.out.print("error 02");
+                } catch (IOException e) {
+                    Logger.getLogger(Sqlex.class.getName()).log(Level.SEVERE, null, e);
                 }
             }
         } catch (IOException e) {
-            //Logger.getLogger(jflex.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.print("error 01");
+            Logger.getLogger(Sqlex.class.getName()).log(Level.SEVERE, null, e);
+
         }
 
     }
-   
+
 }
